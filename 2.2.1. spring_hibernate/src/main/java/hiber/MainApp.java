@@ -9,6 +9,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 
 // select * from users
 // JOIN car ON users.car_id = car.id
@@ -22,7 +24,7 @@ public class MainApp {
       UserService userService = context.getBean(UserService.class);
 
       userService.add(new User("User1", "Lastname1", "user1@mail.ru", new Car("Volga", 24) ));
-      userService.add(new User("User2", "Lastname2", "user2@mail.ru", new Car("Volga", 21)));
+      userService.add(new User("User2", "Lastname2", "user2@mail.ru", new Car("Belaz", 21)));
       userService.add(new User("User3", "Lastname3", "user3@mail.ru", new Car("Gaz", 23)));
       userService.add(new User("User4", "Lastname4", "user4@mail.ru", new Car("Uaz", 25)));
 
@@ -37,8 +39,14 @@ public class MainApp {
          System.out.println();
 
       }
-      System.out.println("------------------------");
-      System.out.println(userService.getUserWhereCar("Volga", 21));
+
+      try{
+         System.out.println("------------------------");
+         System.out.println(userService.getUserWhereCar("Volga", 24));
+      }catch(NoResultException e){
+         e.printStackTrace();
+      }
+     
 
       
       context.close();
